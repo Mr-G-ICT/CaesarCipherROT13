@@ -6,16 +6,31 @@ namespace CaesarCipherROT13
     {
         static void Main(string[] args)
         {
-            CaesarCipher MyROTCipher = new CaesarCipher();
-            string word;
+            ListOfCiphers MyCipherClass = new ListOfCiphers();
+            string word = "";
             string choice;
             Console.WriteLine("enter your string");
-            MyROTCipher.setWordToEncrypt = Console.ReadLine();
+            MyCipherClass.setWordToEncrypt = Console.ReadLine();
 
             Console.WriteLine("do you want to encrypt or decrypt");
-            MyROTCipher.setChoiceOfEncryptDecrypt = Console.ReadLine();
+            MyCipherClass.setChoiceOfEncryptDecrypt = Console.ReadLine();
 
-            word = MyROTCipher.ROTCipher();
+            Console.WriteLine("please choose your cipher");
+            choice = Console.ReadLine();
+
+            switch(choice)
+            {
+                case "caesar":
+                    word = MyCipherClass.ROTCipher();
+                    break;
+                case "vernam":
+                    word = MyCipherClass.VernamCipher(); 
+                    break;
+
+            }
+
+
+          
 
             Console.WriteLine(word);
         }
