@@ -8,15 +8,22 @@ namespace CaesarCipherROT13
     {
         private string wordToEncrypt;
 
-        public string SetwordToEncrypt
+        public string setWordToEncrypt
         {
             //Set the string we are going to convert, do not use a get 
             //method as we don't ever need to get the string
             set { wordToEncrypt = value; }
         }
-        public string choice { get; set; }
-       
-      public static string ROTCipher() 
+        public string choice;
+
+        public string setChoiceOfEncryptDecrypt
+        {
+            //Set the string we are going to convert, do not use a get 
+            //method as we don't ever need to get the string
+            set { choice = value; }
+        }
+
+        public string ROTCipher() 
         {
 /*************************************************************************/
 /* Name: caesar cipher
