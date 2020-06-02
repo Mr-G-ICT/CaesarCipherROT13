@@ -18,7 +18,7 @@ namespace CaesarCipherROT13
 
         public string setChoiceOfEncryptDecrypt
         {
-            //Set the string we are going to convert, do not use a get 
+            //Set the choice of encrypt or Decrypt, do not use a get 
             //method as we don't ever need to get the string
             set { choice = value; }
         }
@@ -36,38 +36,58 @@ namespace CaesarCipherROT13
             const int SHIFT = 13;
             string encryptedString = "";
             int ASCIIletter;
+            int diff;
 
             for(int count = 0; count <= wordToEncrypt.Length - 1; count++)
             {
                
                 ASCIIletter = (int)Convert.ToChar(wordToEncrypt[count]);
-                
-                //check if it's a letter
-                if (ASCIIletter >= 65 && ASCIIletter <= 90)
-                {
-                    if (choice == "encrypt")
-                    {
-                        //this is for decrypt
-                        ASCIIletter = ASCIIletter + SHIFT;
 
+                if (choice == "encrypt")
+                {
+                    //this is for encrypt
+                    ASCIIletter = ASCIIletter + SHIFT;
+
+                    //check if it's a letter
+                    if (ASCIIletter >= (65+ SHIFT) && ASCIIletter <= (90 + SHIFT))
+                    {
                         if (ASCIIletter >= 90)
                         {
-                            int diff = ASCIIletter - 90;
+                            diff = ASCIIletter - 90;
                             ASCIIletter = 64 + diff;
                         }
 
-                    }
-                    else
+                    }else if(ASCIIletter >= (97+ SHIFT) && ASCIIletter <= (122+ SHIFT))
                     {
-                        //this is for decrypt
-                        ASCIIletter = ASCIIletter - SHIFT;
-                        if (ASCIIletter <= 65)
+                        //if it's lower case, but goes beyond the bounds.
+                        if (ASCIIletter >= 122)
                         {
-                            int diff = 65 - ASCIIletter;
-                            ASCIIletter = 91 - diff;
+                            diff = ASCIIletter - 122;
+                            ASCIIletter = 96 + diff;
                         }
 
                     }
+                } else
+                {
+                    //this is for decrypt
+                    ASCIIletter = ASCIIletter - SHIFT;
+                    if (ASCIIletter >= (65-SHIFT) && ASCIIletter <= (90- SHIFT))
+                    {
+                        if (ASCIIletter < 65)
+                        {
+                            diff = 65 - ASCIIletter;
+                            ASCIIletter = 91 - diff;
+                        }
+                      
+                    }else if (ASCIIletter > (97-SHIFT) && ASCIIletter < (122-SHIFT))
+                    {       
+                        if (ASCIIletter < 97)
+                        {
+                            diff = 97 - ASCIIletter;
+                            ASCIIletter = 123 - diff;
+                        }
+                    }
+            
 
                 }
                 encryptedString = encryptedString + Convert.ToChar(ASCIIletter);
@@ -78,4 +98,4 @@ namespace CaesarCipherROT13
 
     }
     }
-}
+

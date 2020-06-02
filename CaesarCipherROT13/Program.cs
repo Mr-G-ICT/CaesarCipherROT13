@@ -20,5 +20,6 @@ namespace CaesarCipherROT13
             Console.WriteLine(word);
         }
 
-    
+
+    }
 }
