@@ -101,10 +101,10 @@ namespace CaesarCipherROT13
         {
             /*****************************************************************************/
             /* Name: Vernam Cipher
-            /* Description: standard vernam cipher that initially works with upper case letters
+            /* Description: standard vernam cipher that works with upper, lower and special characters
             /* Inputs: word to convert, wether it is encryption or decryption
-            /* outputs:
-            /* potential improvements: build in characters that you can use, thinking an array
+            /* outputs: an encrypted word
+            /* Improvements: the encryption now works, now on to the decryption 
             /*****************************************************************************/
             
             string encryptedString ="";
@@ -112,9 +112,9 @@ namespace CaesarCipherROT13
             int wordCount, keyCount = 0;
             int UpperOrLower = 65, keyUpperOrLower = 65; // this is to understand if Upper or lower case character and compensate accordingly in ascii conversion
             int diff;
-            const string MYVERNAMKEY = "RANCHOBABA";
+            const string MYVERNAMKEY = "RANCHOBABAZ";
 
-
+            //loop through the word to be encrypted.
             for (wordCount = 0; wordCount <= wordToEncrypt.Length - 1; wordCount++)
             {
                 UpperOrLower = 65;
@@ -125,17 +125,43 @@ namespace CaesarCipherROT13
                 {
                     UpperOrLower = UpperOrLower + 32;
                 }
-                ASCIILetter = ASCIILetter - UpperOrLower;
+
+                    //work out the letter of the alphabet in standard form e.g. a=1, b=2
+                    ASCIILetter = ASCIILetter - UpperOrLower;
 
                 Console.WriteLine(ASCIILetter);
 
+
+                //DOESN'T WORK...WILL Encrypt, but won't decrypt
+                const string VALIDSYMBOLS = @"\|!#$%&/()=?»«@£§€{}.-;'<>_,";
+                //this is the bit where i put in symbols, if the number is not between 1 and 26 
+                //then it has to be a symbol, so work this out.
+                if ((ASCIILetter < 1 || ASCIILetter > 26) && choice != "decrypt")
+                {
+                    //so if the symbol is in the list, convert and encrypt otherwise return error
+                    for (int symbolCount = 0; symbolCount <= VALIDSYMBOLS.Length - 1; symbolCount++)
+                    {
+                        if (wordToEncrypt[wordCount] == VALIDSYMBOLS[symbolCount])
+                        {
+                            ASCIILetter = symbolCount + 75;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    ASCIILetter = ASCIILetter - 75;
+
+                
+                }
+
+
+                //if we have reached the end of the key, reset it so that we can reuse the word
                 if (keyCount == MYVERNAMKEY.Length)
                 {
                     keyCount = 0;
                 }
 
-                if(keyCount <= MYVERNAMKEY.Length - 1)
-                {
+                    //reset this every time, as i need to check with each loop if the letter is upper or lower
                     keyUpperOrLower = 65;
                     keyLetter = (int)Convert.ToChar(MYVERNAMKEY[keyCount]);
 
@@ -145,21 +171,38 @@ namespace CaesarCipherROT13
                         keyUpperOrLower = keyUpperOrLower + 32;
                     }
 
-                    keyLetter = keyLetter - keyUpperOrLower;
+
+
+                //work out the letter of the alphabet in standard form e.g. a=1 b=2
+                keyLetter = keyLetter - keyUpperOrLower;
+
+                if (choice == "decrypt")
+                {
+
+                    ASCIILetter = ASCIILetter - keyLetter;
+                    Console.WriteLine("decrypt" + ASCIILetter);
+                    if(ASCIILetter < 0)
+                    {
+                        ASCIILetter = ASCIILetter + 26;
+                    }
+                }
+                else
+                {
                     ASCIILetter = ASCIILetter + keyLetter;
-                    Console.WriteLine("keyuletter" + keyLetter);
+
                     //if the conversion goes beyond 26 then go back to start of the alphabet
-                    if (ASCIILetter >= 26)
+                    if (ASCIILetter >= 26 && ASCIILetter <=75)
                     {
                         ASCIILetter = ASCIILetter - 26;
-                       
+
                     }
+                }              
 
+                    //move onto the next letter of the key
                     keyCount = keyCount + 1;
-                }
-    
 
-
+                //add the encrypted letter to the end of the string.
+                Console.WriteLine("final letter"+ ASCIILetter + UpperOrLower);
                 encryptedString = encryptedString + Convert.ToChar( (ASCIILetter + UpperOrLower));
             }
 
